@@ -1,59 +1,86 @@
 using System.IO;
+using System.Net;
+using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using Unity.Mathematics;
 using UnityEngine;
-
+using System.Threading;
+using System;
+using System.Text;
 public class PosDecoder : MonoBehaviour
 {
-    float[] raw = new float[120];
-    float[] decodedarray = new float[120];
+    private static readonly object _lock = new object();
+    Thread receiveThread;
+
+    // UDP Port
+    int port = 8080;
+    //float[] raw = new float[120];
+    float[] decodedarray;
+    byte[] rawencoded;
     // Start is called before the first frame update
+    UdpClient client;
+    IPEndPoint anyIP;
+
     void Start()
     {
-        Transform position = GetComponent<Transform>();
+        Application.targetFrameRate = 50;
 
-        float randy = math.abs(UnityEngine.Random.value);
-        raw[0] = 0.00f;
-        for (int i = 1; i < 120; i++)
+        // UDP Code
+        receiveThread = new Thread(new ThreadStart(UDPClient));
+        receiveThread.IsBackground = true;
+        receiveThread.Start();
+    }
+
+    public void UDPClient()
+    {
+        this.client = new(port);
+        this.anyIP = new(IPAddress.Any, 0);
+        while (true)
         {
-            raw[i] = raw[i - 1] + randy;
-        }
-        // for(int i = 0; i < raw.Length; i++){Debug.Log(raw[i]);}
-        byte[] rawencoded = toBinaryarray(raw);
+            if(decodedarray == null){
 
-        /*string stringencoded = "";
-        for (int i = 0; i < rawencoded.Length; i++)
+            rawencoded = client.Receive(ref anyIP);
+            lock(_lock){
+            toFloatarray(rawencoded);
+            }
+            }
+            //Debug.Log(rawencoded);
+
+            // Debug.Log("New Message received");
+        }
+    }
+
+    void toFloatarray(byte[] encoded)
+    {
+        decodedarray = new float[rawencoded.Length / sizeof(float)];
+        Buffer.BlockCopy(rawencoded, 0, decodedarray, 0, rawencoded.Length);
+    }
+    void FixedUpdate()
+    {
+
+
+        // Debug.Log("frame: " + Time.frameCount);
+        if (decodedarray != null)
         {
-            stringencoded += rawencoded[i].ToString();
+            lock(_lock){
+                Debug.Log("x: [" + decodedarray[1] + "], y: [" + decodedarray[2] + "], z: [" + decodedarray[3] + "]" + "P: [" + decodedarray[4] + "], Y: [" + decodedarray[5] + "], R: [" + decodedarray[6] + "]");
+                quaternion rotUpdater = Quaternion.Euler(decodedarray[4], decodedarray[5], decodedarray[6]);
+                transform.rotation = rotUpdater;
+                transform.position = new Vector3(decodedarray[1], decodedarray[2], decodedarray[3]);
+                decodedarray = null;
+            }
+            
+                // quaternion rotUpdater = Quaternion.Euler(decodedarray[0], decodedarray[1], decodedarray[2]);
+
+                // Debug.Log(" x: [" + decodedarray[3 * (Time.frameCount - 1) % 3] + "], y: [" + decodedarray[(3 * (Time.frameCount - 1) + 1) % 3] + "], z: [" + decodedarray[(3 * (Time.frameCount - 1) + 2) % 3] + "]");
+
         }
-        Debug.Log(stringencoded);*/
-
-        decodedarray = toFloatarray(rawencoded);
-        //  for(int i = 0; i < decodedarray.Length; i++){Debug.Log(raw[i] == decodedarray[i]);}
     }
-    float[] toFloatarray(byte[] encoded)
+    void OnDisable()
     {
-        BinaryFormatter binaryFormatter = new();
-        MemoryStream memoryStream = new(encoded);
-        float[] decodedarray = (float[])binaryFormatter.Deserialize(memoryStream);
-        return decodedarray;
-    }
-
-    byte[] toBinaryarray(float[] raw)
-    {
-        BinaryFormatter binaryFormatter = new();
-        MemoryStream memoryStream = new();
-        binaryFormatter.Serialize(memoryStream, raw);
-        return memoryStream.ToArray();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // int fps = Mathf.RoundToInt(1f / Time.deltaTime);
-        // Debug.Log(Time.frameCount);
-        quaternion rotUpdater = Quaternion.Euler(decodedarray[3 * (Time.frameCount - 1) % 120], decodedarray[(3 * (Time.frameCount - 1) + 1) % 120], decodedarray[(3 * (Time.frameCount - 1) + 2) % 120]);
-        transform.rotation = rotUpdater;
-        // Debug.Log("x: [" + decodedarray[3 * (Time.frameCount - 1) % 120] + "], y: [" + decodedarray[(3 * (Time.frameCount - 1) + 1) % 120] + "], z: [" + decodedarray[(3 * (Time.frameCount - 1) + 2) % 120] + "]");
+        if (client != null)
+            client.Close();
+        if (receiveThread != null && receiveThread.IsAlive)
+            receiveThread.Abort();
     }
 }
