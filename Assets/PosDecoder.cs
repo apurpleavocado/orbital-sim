@@ -20,6 +20,7 @@ public class PosDecoder : MonoBehaviour
     // Start is called before the first frame update
     UdpClient client;
     IPEndPoint anyIP;
+    int count = 0;
 
     void Start()
     {
@@ -37,12 +38,14 @@ public class PosDecoder : MonoBehaviour
         this.anyIP = new(IPAddress.Any, 0);
         while (true)
         {
-            if(decodedarray == null){
+            if (decodedarray == null)
+            {
 
-            rawencoded = client.Receive(ref anyIP);
-            lock(_lock){
-            toFloatarray(rawencoded);
-            }
+                rawencoded = client.Receive(ref anyIP);
+                lock (_lock)
+                {
+                    toFloatarray(rawencoded);
+                }
             }
             //Debug.Log(rawencoded);
 
@@ -62,17 +65,22 @@ public class PosDecoder : MonoBehaviour
         // Debug.Log("frame: " + Time.frameCount);
         if (decodedarray != null)
         {
-            lock(_lock){
-                Debug.Log("x: [" + decodedarray[1] + "], y: [" + decodedarray[2] + "], z: [" + decodedarray[3] + "]" + "P: [" + decodedarray[4] + "], Y: [" + decodedarray[5] + "], R: [" + decodedarray[6] + "]");
-                quaternion rotUpdater = Quaternion.Euler(decodedarray[4], decodedarray[5], decodedarray[6]);
-                transform.rotation = rotUpdater;
-                transform.position = new Vector3(decodedarray[1], decodedarray[2], decodedarray[3]);
+            lock (_lock)
+            {
+                Debug.Log("x: [" + decodedarray[1] + "], y: [" + decodedarray[2] + "], z: [" + decodedarray[3] + "], P: [" + decodedarray[4] + "], Y: [" + decodedarray[5] + "], R: [" + decodedarray[6] + "], W: [" + decodedarray[7] + "] count: " + (++count));
+                // Quaternion rotUpdater = Quaternion.Euler(decodedarray[4], decodedarray[5], decodedarray[6]);
+                Quaternion rotUpdater;
+                rotUpdater.x = decodedarray[4];
+                rotUpdater.y = decodedarray[5];
+                rotUpdater.z = decodedarray[6];
+                rotUpdater.w = decodedarray[7];
+                transform.SetLocalPositionAndRotation(new Vector3(decodedarray[1], decodedarray[2], decodedarray[3]), rotUpdater);
                 decodedarray = null;
             }
-            
-                // quaternion rotUpdater = Quaternion.Euler(decodedarray[0], decodedarray[1], decodedarray[2]);
 
-                // Debug.Log(" x: [" + decodedarray[3 * (Time.frameCount - 1) % 3] + "], y: [" + decodedarray[(3 * (Time.frameCount - 1) + 1) % 3] + "], z: [" + decodedarray[(3 * (Time.frameCount - 1) + 2) % 3] + "]");
+            // quaternion rotUpdater = Quaternion.Euler(decodedarray[0], decodedarray[1], decodedarray[2]);
+
+            // Debug.Log(" x: [" + decodedarray[3 * (Time.frameCount - 1) % 3] + "], y: [" + decodedarray[(3 * (Time.frameCount - 1) + 1) % 3] + "], z: [" + decodedarray[(3 * (Time.frameCount - 1) + 2) % 3] + "]");
 
         }
     }

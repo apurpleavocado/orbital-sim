@@ -41,27 +41,27 @@ public class Movement : MonoBehaviour
         }*/
         if (Input.GetKey(KeyCode.Keypad8))
         {
-            rb.AddForce(0, thrust, 0, ForceMode.Impulse);
+            rb.AddRelativeForce(0, thrust, 0, ForceMode.Impulse);
         }
         if (Input.GetKey(KeyCode.Keypad5))
         {
-            rb.AddForce(0, -thrust, 0, ForceMode.Impulse);
+            rb.AddRelativeForce(0, -thrust, 0, ForceMode.Impulse);
         }
         if (Input.GetKey(KeyCode.Keypad6))
         {
-            rb.AddForce(thrust, 0, 0, ForceMode.Impulse);
+            rb.AddRelativeForce(thrust, 0, 0, ForceMode.Impulse);
         }
         if (Input.GetKey(KeyCode.Keypad4))
         {
-            rb.AddForce(-thrust, 0, 0, ForceMode.Impulse);
+            rb.AddRelativeForce(-thrust, 0, 0, ForceMode.Impulse);
         }
         if (Input.GetKey(KeyCode.Keypad9))
         {
-            rb.AddForce(0, 0, thrust, ForceMode.Impulse);
+            rb.AddRelativeForce(0, 0, thrust, ForceMode.Impulse);
         }
         if (Input.GetKey(KeyCode.Keypad7))
         {
-            rb.AddForce(0, 0, -thrust, ForceMode.Impulse);
+            rb.AddRelativeForce(0, 0, -thrust, ForceMode.Impulse);
         }
 
         /*if (Input.GetKey(KeyCode.Z))
@@ -77,29 +77,29 @@ public class Movement : MonoBehaviour
                 flag1 = true;
             }
         }*/
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.E))
         {
-            rb.AddTorque(0, angthrust, 0, ForceMode.Impulse);
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            rb.AddTorque(0, -angthrust, 0, ForceMode.Impulse);
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            rb.AddTorque(angthrust, 0, 0, ForceMode.Impulse);
-        }
-        if (Input.GetKey(KeyCode.W))
-        {
-            rb.AddTorque(-angthrust, 0, 0, ForceMode.Impulse);
+            rb.AddRelativeTorque(0, angthrust, 0, ForceMode.Impulse);
         }
         if (Input.GetKey(KeyCode.Q))
         {
-            rb.AddTorque(0, 0, angthrust, ForceMode.Impulse);
+            rb.AddRelativeTorque(0, -angthrust, 0, ForceMode.Impulse);
         }
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKey(KeyCode.S))
         {
-            rb.AddTorque(0, 0, -angthrust, ForceMode.Impulse);
+            rb.AddRelativeTorque(angthrust, 0, 0, ForceMode.Impulse);
+        }
+        if (Input.GetKey(KeyCode.W))
+        {
+            rb.AddRelativeTorque(-angthrust, 0, 0, ForceMode.Impulse);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            rb.AddRelativeTorque(0, 0, angthrust, ForceMode.Impulse);
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            rb.AddRelativeTorque(0, 0, -angthrust, ForceMode.Impulse);
         }
     }
 }

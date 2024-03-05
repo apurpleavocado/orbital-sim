@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PositionListener : MonoBehaviour
 {
-    public Transform anglecatch;
+    // public Transform anglecatch;
     public TextMeshProUGUI angleUI_X;
     public TextMeshProUGUI angleUI_Y;
     public TextMeshProUGUI angleUI_Z;
@@ -19,10 +19,11 @@ public class PositionListener : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        // Debug.Log(Math.Round(transform.localRotation.eulerAngles.x, 2)+", " +Math.Round(transform.localRotation.eulerAngles.y, 2)+", " + Math.Round(transform.localRotation.eulerAngles.z, 2));
         // for floatpoint precision error
-        recalc_anglecatch = new Vector3(Mathf.Repeat(anglecatch.rotation.eulerAngles.x, 360f), 
-        Mathf.Repeat(anglecatch.rotation.eulerAngles.y, 360f), 
-        Mathf.Repeat(anglecatch.rotation.eulerAngles.z, 360f));
+        recalc_anglecatch = new Vector3(Mathf.Repeat((float)Math.Round(transform.localRotation.eulerAngles.x, 2), 360f), 
+        Mathf.Repeat((float)Math.Round(transform.localRotation.eulerAngles.y, 2), 360f), 
+        Mathf.Repeat((float)Math.Round(transform.localRotation.eulerAngles.z, 2), 360f));
 
         Vector3 recalc_rot = recalc_anglecatch - new Vector3(
         360 * math.floor(recalc_anglecatch.x / 180),
