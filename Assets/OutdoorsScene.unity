@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.35199282, g: 0.2802975, b: 0.24632718, a: 1}
+  m_IndirectSpecularColor: {r: 0.02640442, g: 0.020282762, b: 0.014837617, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -437,7 +437,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 259266062}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.19308499, y: -0.15421908, z: -0.6047257, w: 0.75712717}
+  m_LocalRotation: {x: 0.19308549, y: -0.15421985, z: -0.60472643, w: 0.7571263}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -457,8 +457,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8f340f6aa418d94286ad91eb28b5cd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  latitude: 28.613595084686487
-  longitude: 77.22947930112439
+  latitude: 28.613704699622506
+  longitude: 77.22961597262633
 --- !u!1 &543927526
 GameObject:
   m_ObjectHideFlags: 0
@@ -1061,6 +1061,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1188714733}
   m_CullTransparentMesh: 1
+--- !u!1 &1313443460
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1313443461}
+  m_Layer: 0
+  m_Name: Horizon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1313443461
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313443460}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 6371000, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1564857182
 GameObject:
   m_ObjectHideFlags: 0
@@ -1726,3 +1757,4 @@ SceneRoots:
   - {fileID: 2135318465}
   - {fileID: 798314361}
   - {fileID: 1161596811}
+  - {fileID: 1313443461}

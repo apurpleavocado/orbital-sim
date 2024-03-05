@@ -167,10 +167,10 @@ MonoBehaviour:
     m_Value: {r: 0.8509433, g: 0.8847563, b: 1, a: 1}
   groundColorTexture:
     m_OverrideState: 1
-    m_Value: {fileID: 8900000, guid: 7ef3119379e890e489bfbdf3ff92433b, type: 3}
+    m_Value: {fileID: 8900000, guid: 66d484b5c6daa0d448a170d6b632635e, type: 3}
   groundEmissionTexture:
     m_OverrideState: 1
-    m_Value: {fileID: 8900000, guid: c08931d023f849344892e9f4aa7b7b1f, type: 3}
+    m_Value: {fileID: 8900000, guid: 458b01c2efc29e442b2ced931060506c, type: 3}
   groundEmissionMultiplier:
     m_OverrideState: 1
     m_Value: 1.6
